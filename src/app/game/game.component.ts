@@ -32,10 +32,21 @@ export class GameComponent implements AfterViewInit {
     const canvas = this.canvasRef.nativeElement;
     this.ctx.fillStyle = '#eee';
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+  
+    // Draw snake
     this.ctx.fillStyle = 'green';
     for (const segment of this.snake.snake) {
       this.ctx.fillRect(segment.x * this.tileSize, segment.y * this.tileSize, this.tileSize, this.tileSize);
     }
+  
+    // Draw apple
+    this.ctx.fillStyle = 'red';
+    this.ctx.fillRect(
+      this.game.apple.x * this.tileSize,
+      this.game.apple.y * this.tileSize,
+      this.tileSize,
+      this.tileSize
+    );
   }
+  
 }
