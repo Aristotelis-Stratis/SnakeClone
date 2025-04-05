@@ -3,6 +3,7 @@ import { SnakeService } from '../services/snake.service';
 import { GameService } from '../services/game.service';
 import { CommonModule } from '@angular/common';
 import { InputService } from '../services/input.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-game',
@@ -13,6 +14,7 @@ import { InputService } from '../services/input.service';
 })
 export class GameComponent implements AfterViewInit {
   @ViewChild('gameCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  @Output() backToMenuEvent = new EventEmitter<void>();
   private ctx!: CanvasRenderingContext2D;
 
   appleImage = new Image();
@@ -138,6 +140,13 @@ export class GameComponent implements AfterViewInit {
    */
   restart() {
     this.game.restart(() => this.draw());
+  }
+
+  /**
+  * Navigates the user back to main menu.
+  */
+  backToMenu() {
+    this.backToMenuEvent.emit();
   }
 
   /**

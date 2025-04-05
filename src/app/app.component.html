@@ -1,0 +1,16 @@
+<div class="title">
+    <h1>SerpenTile</h1>
+  </div>
+  
+  <div class="game-container">
+    <app-start-screen
+      *ngIf="!gameStarted"
+      (startGame)="onGameStart()">
+    </app-start-screen>
+  
+    <app-game
+      *ngIf="gameStarted"
+      (backToMenuEvent)="onBackToMenu()">
+    </app-game>
+  </div>
+  

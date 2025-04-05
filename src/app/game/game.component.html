@@ -1,18 +1,20 @@
 <div class="game-container">
-    <div class="game-wrapper">
-      <canvas #gameCanvas width="700" height="550"></canvas>
-  
-      <!-- Score Display with Apple -->
-      <!-- <div class="score-display">
-        <img src="assets/images/apple.png" alt="Apple"> {{ game.score }}
-      </div> -->
-  
-      <!-- Game Over Overlay -->
-      <div *ngIf="game.isGameOver" class="overlay">
-        <h2>Game Over</h2>
-        <p>Your Score: {{ game.score }}</p>
-        <button (click)="restart()">Restart</button>
+  <div class="game-wrapper">
+    <canvas #gameCanvas width="700" height="550"></canvas>
+
+    <!-- Game Over Overlay -->
+    <div *ngIf="game.isGameOver" class="overlay">
+      <h2>Game Over</h2>
+      <p>Your Score: {{ game.score }}</p>
+      <div class="button-group">
+        <button (click)="restart()">
+          Restart
+        </button>
+        <button (click)="backToMenu()">
+          Back to Menu
+        </button>
       </div>
     </div>
+
   </div>
-  
+</div>

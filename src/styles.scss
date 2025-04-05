@@ -1,4 +1,11 @@
-* {
+html,
+body {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    background: url('/assets/images/web_background.png') no-repeat center 15%;
+    background-size: cover;
 }
