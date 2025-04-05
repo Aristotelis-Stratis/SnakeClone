@@ -1,39 +1,72 @@
 import { Injectable } from '@angular/core';
-import { Point } from '../models/point.model';
+import { Snake } from '../models/snake.model';
+import { SnakeSegment } from '../models/snake-segment.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class SnakeService {
-  snake: Point[] = [{ x: 10, y: 10 }];
-  velocity: Point = { x: 1, y: 0 };
+  snake = new Snake();
 
-  getHead(): Point {
-    return this.snake[0];
+  /**
+   * Returns the list of snake segments (head + body).
+   */
+  get snakeSegments(): SnakeSegment[] {
+    return this.snake.segments;
   }
 
+  /**
+   * Returns the current head segment of the snake.
+   */
+  getHead(): SnakeSegment {
+    return this.snake.head;
+  }
+
+  /**
+   * Moves the snake in the current velocity direction.
+   * @param grow Whether the snake should grow after moving
+   */
   move(grow: boolean = false) {
-    const newHead = {
-      x: this.snake[0].x + this.velocity.x,
-      y: this.snake[0].y + this.velocity.y
-    };
-  
-    this.snake.unshift(newHead);
-  
-    if (!grow) {
-      this.snake.pop();
-    }
+    this.snake.move(grow);
   }
-  
+
+  /**
+   * Adds a new segment to the tail.
+   */
   grow() {
-    const tail = this.snake[this.snake.length - 1];
-    this.snake.push({ ...tail }); // dummy-grow
+    this.snake.grow();
   }
 
+  /**
+   * Resets the snake to its initial state.
+   */
   reset() {
-    this.snake = [{ x: 10, y: 10 }];
-    this.velocity = { x: 1, y: 0 };
+    this.snake.reset();
   }
 
-  isCollision(point: Point): boolean {
-    return this.snake.some(segment => segment.x === point.x && segment.y === point.y);
+  /**
+   * Checks whether the snake collides with a given point.
+   * @param point The point to check collision against
+   * @returns True if a segment occupies the point
+   */
+  isCollision(point: { x: number, y: number }): boolean {
+    return this.snake.isCollision(point);
+  }
+
+  /**
+   * Gets the current movement velocity.
+   */
+  get velocity() {
+    return this.snake.velocity;
+  }
+
+  /**
+   * Sets the snake's movement velocity.
+   */
+  set velocity(val) {
+    this.snake.velocity = val;
+  }
+
+  get instance(): Snake {
+    return this.snake;
   }
 }

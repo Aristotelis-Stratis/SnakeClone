@@ -30,22 +30,19 @@ export class GameComponent implements AfterViewInit {
     private input: InputService
   ) { }
 
-
   /**
-  * Called after canvas is available. Loads images and starts the game.
-  */
+   * Called after canvas is available. Loads images and starts the game.
+   */
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
-
     this.loadImages(() => this.game.start(() => this.draw()));
   }
 
-
   /**
-  * Loads required game images, then triggers callback.
-  * @param onAllLoaded Called when all images are loaded
-  */
+   * Loads required game images, then triggers callback.
+   * @param onAllLoaded Called when all images are loaded
+   */
   loadImages(onAllLoaded: () => void) {
     const images = [
       { image: this.backgroundImage, src: 'assets/images/background_2.png' },
@@ -58,25 +55,25 @@ export class GameComponent implements AfterViewInit {
     images.forEach(({ image, src }) => {
       image.src = src;
       image.onload = () => {
-        loadedCount++;
-        if (loadedCount === images.length) onAllLoaded();
+        if (++loadedCount === images.length) {
+          onAllLoaded();
+        }
       };
     });
   }
 
   /**
- * Draws the entire game scene.
- */
+   * Draws the entire game scene.
+   */
   draw() {
     this.drawBackground();
     this.drawSnake();
     this.drawApple();
   }
 
-
   /**
- * Draws the tiled background pattern.
- */
+   * Draws the tiled background pattern.
+   */
   drawBackground() {
     const canvas = this.canvasRef.nativeElement;
     const pattern = this.ctx.createPattern(this.backgroundImage, 'repeat');
@@ -86,26 +83,18 @@ export class GameComponent implements AfterViewInit {
     }
   }
 
-
   /**
-  * Draws the snake, rotating the head and scaling body parts.
-  */
+   * Draws the snake, rotating the head and scaling body parts.
+   */
   drawSnake() {
-    this.snake.snake.forEach((segment, index) => {
-      const isHead = index === 0;
-      const image = isHead ? this.snakeHeadImage : this.snakeBodyImage;
-      const scale = isHead ? 1.3 : this.getSizeFactor(index);
-      const size = this.tileSize * scale;
-      const offset = (this.tileSize - size) / 2;
-      const x = segment.x * this.tileSize + offset;
-      const y = segment.y * this.tileSize + offset;
-
-      if (isHead) {
-        this.drawRotatedImage(image, x, y, size, this.getHeadRotation());
-      } else {
-        this.ctx.drawImage(image, x, y, size, size);
-      }
-    });
+    this.snake.instance.draw(
+      this.ctx,
+      this.tileSize,
+      this.snakeHeadImage,
+      this.snakeBodyImage,
+      (index) => this.getSizeFactor(index),
+      () => this.getHeadRotation()
+    );
   }
 
 
@@ -125,11 +114,10 @@ export class GameComponent implements AfterViewInit {
     this.ctx.restore();
   }
 
-
   /**
- * Calculates the current head rotation angle.
- * @returns Rotation in radians
- */
+   * Calculates the current head rotation angle.
+   * @returns Rotation in radians
+   */
   getHeadRotation(): number {
     const { x, y } = this.snake.velocity;
     if (x === 0 && y === -1) return Math.PI;
@@ -138,36 +126,27 @@ export class GameComponent implements AfterViewInit {
     return 0;
   }
 
-
   /**
- * Draws the apple image at its current position.
- */
+   * Draws the apple image at its current position.
+   */
   drawApple() {
-    this.ctx.drawImage(
-      this.appleImage,
-      this.game.apple.x * this.tileSize,
-      this.game.apple.y * this.tileSize,
-      this.tileSize,
-      this.tileSize
-    );
+    this.game.apple.draw(this.ctx, this.tileSize, this.appleImage);
   }
 
-
   /**
-  * Restarts the game and redraws the scene.
-  */
+   * Restarts the game and redraws the scene.
+   */
   restart() {
     this.game.restart(() => this.draw());
   }
 
-
   /**
- * Returns a scaling factor for the given snake segment.
- * @param index Segment index
- * @returns Size factor (0.6 - 1.0)
- */
+   * Returns a scaling factor for the given snake segment.
+   * @param index Segment index
+   * @returns Size factor (0.6 - 1.0)
+   */
   getSizeFactor(index: number): number {
-    const length = this.snake.snake.length;
+    const length = this.snake.snakeSegments.length;
     if (index === 0) return 1.0;
     if (index === length - 1) return 0.6;
     return 0.85;
