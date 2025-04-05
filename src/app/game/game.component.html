@@ -1,6 +1,10 @@
 <div style="position: relative; width: 400px; height: 400px;">
     <canvas #gameCanvas width="400" height="400"></canvas>
   
+    <div class="score-display">
+      🍎 {{ game.score }}
+    </div>
+  
     <div *ngIf="game.isGameOver" class="overlay">
       <h2>Game Over</h2>
       <button (click)="restart()">Restart</button>

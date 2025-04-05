@@ -6,13 +6,14 @@ import { SnakeService } from './snake.service';
 export class GameService {
   private intervalId: any;
   apple: Point = { x: 5, y: 5 }; // start position
-
+  score = 0;
   readonly tileCount = 20;
   isGameOver = false;
 
   constructor(private snakeService: SnakeService) { }
 
   start(callback: () => void) {
+    this.score = 0;
     this.stop();
     this.isGameOver = false;
     this.spawnApple();
@@ -31,7 +32,6 @@ export class GameService {
 
       if (outOfBounds || hitsSelf) {
         this.stop();
-        alert('Game Over!');
         this.snakeService.reset();
         this.spawnApple();
         callback(); // redraw
@@ -41,6 +41,7 @@ export class GameService {
       const ateApple = nextHead.x === this.apple.x && nextHead.y === this.apple.y;
       this.snakeService.move(ateApple);
       if (ateApple) {
+        this.score++;
         this.spawnApple();
       }
 
