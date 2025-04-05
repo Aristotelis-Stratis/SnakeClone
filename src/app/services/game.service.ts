@@ -8,6 +8,9 @@ export class GameService {
   apple: Point = { x: 5, y: 5 }; // start position
   score = 0;
   readonly tileCount = 20;
+  readonly tileSize = 25; // size of one tile in px
+  readonly tileCountX = Math.floor(700 / this.tileSize); // 28
+  readonly tileCountY = Math.floor(550 / this.tileSize); // 22
   isGameOver = false;
 
   constructor(private snakeService: SnakeService) { }
@@ -25,8 +28,8 @@ export class GameService {
       };
 
       // Wallcollision
-      const outOfBounds = nextHead.x < 0 || nextHead.y < 0 || nextHead.x >= this.tileCount || nextHead.y >= this.tileCount;
-
+      const outOfBounds = nextHead.x < 0 || nextHead.y < 0 ||
+      nextHead.x >= this.tileCountX || nextHead.y >= this.tileCountY;
       // Selfcollision
       const hitsSelf = this.snakeService.isCollision(nextHead);
 
@@ -69,8 +72,8 @@ export class GameService {
     let newApple: Point;
     do {
       newApple = {
-        x: Math.floor(Math.random() * this.tileCount),
-        y: Math.floor(Math.random() * this.tileCount),
+        x: Math.floor(Math.random() * this.tileCountX),
+        y: Math.floor(Math.random() * this.tileCountY),
       };
     } while (this.snakeService.snake.some(s => s.x === newApple.x && s.y === newApple.y));
 

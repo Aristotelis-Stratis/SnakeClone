@@ -14,7 +14,9 @@ import { InputService } from '../services/input.service';
 export class GameComponent implements AfterViewInit {
   @ViewChild('gameCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
-  readonly tileSize = 20;
+  get tileSize(): number {
+    return this.game.tileSize;
+  }
 
   constructor(
     public snake: SnakeService,
@@ -34,10 +36,20 @@ export class GameComponent implements AfterViewInit {
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw snake
-    this.ctx.fillStyle = 'green';
-    for (const segment of this.snake.snake) {
-      this.ctx.fillRect(segment.x * this.tileSize, segment.y * this.tileSize, this.tileSize, this.tileSize);
-    }
+    this.snake.snake.forEach((segment, index) => {
+      const sizeFactor = this.getSizeFactor(index);
+
+      const offset = (1 - sizeFactor) * this.tileSize / 2;
+      const size = this.tileSize * sizeFactor;
+
+      this.ctx.fillStyle = 'green';
+      this.ctx.fillRect(
+        segment.x * this.tileSize + offset,
+        segment.y * this.tileSize + offset,
+        size,
+        size
+      );
+    });
 
     // Draw apple
     this.ctx.fillStyle = 'red';
@@ -51,6 +63,16 @@ export class GameComponent implements AfterViewInit {
 
   restart() {
     this.game.restart(() => this.draw());
+  }
+
+  getSizeFactor(index: number): number {
+    const length = this.snake.snake.length;
+
+    if (index === 0) return 1.0; // Full size for the head
+    if (index === length - 1) return 0.6; // Smaller size for the tail
+
+    // Slightly smaller size for body segments to create a visual gradient
+    return 0.85;
   }
 
 }
