@@ -18,9 +18,9 @@ export class GameComponent implements AfterViewInit {
 
   constructor(
     public snake: SnakeService,
-    private game: GameService,
+    public game: GameService,
     private input: InputService
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
@@ -32,13 +32,13 @@ export class GameComponent implements AfterViewInit {
     const canvas = this.canvasRef.nativeElement;
     this.ctx.fillStyle = '#eee';
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
     // Draw snake
     this.ctx.fillStyle = 'green';
     for (const segment of this.snake.snake) {
       this.ctx.fillRect(segment.x * this.tileSize, segment.y * this.tileSize, this.tileSize, this.tileSize);
     }
-  
+
     // Draw apple
     this.ctx.fillStyle = 'red';
     this.ctx.fillRect(
@@ -48,5 +48,9 @@ export class GameComponent implements AfterViewInit {
       this.tileSize
     );
   }
-  
+
+  restart() {
+    this.game.restart(() => this.draw());
+  }
+
 }

@@ -10,15 +10,19 @@ export class SnakeService {
     return this.snake[0];
   }
 
-  move() {
-    const newHead: Point = {
+  move(grow: boolean = false) {
+    const newHead = {
       x: this.snake[0].x + this.velocity.x,
-      y: this.snake[0].y + this.velocity.y,
+      y: this.snake[0].y + this.velocity.y
     };
-
+  
     this.snake.unshift(newHead);
-    this.snake.pop();
+  
+    if (!grow) {
+      this.snake.pop();
+    }
   }
+  
 
   grow() {
     const tail = this.snake[this.snake.length - 1];
@@ -28,5 +32,9 @@ export class SnakeService {
   reset() {
     this.snake = [{ x: 10, y: 10 }];
     this.velocity = { x: 1, y: 0 };
+  }
+
+  isCollision(point: Point): boolean {
+    return this.snake.some(segment => segment.x === point.x && segment.y === point.y);
   }
 }
