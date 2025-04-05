@@ -14,6 +14,12 @@ import { InputService } from '../services/input.service';
 export class GameComponent implements AfterViewInit {
   @ViewChild('gameCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
+
+  appleImage = new Image();
+  backgroundImage = new Image();
+  snakeHeadImage = new Image();
+  snakeBodyImage = new Image();
+
   get tileSize(): number {
     return this.game.tileSize;
   }
@@ -24,36 +30,121 @@ export class GameComponent implements AfterViewInit {
     private input: InputService
   ) { }
 
+
+  /**
+  * Called after canvas is available. Loads images and starts the game.
+  */
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
-    this.game.start(() => this.draw());
+
+    this.loadImages(() => this.game.start(() => this.draw()));
   }
 
-  draw() {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx.fillStyle = '#eee';
-    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw snake
-    this.snake.snake.forEach((segment, index) => {
-      const sizeFactor = this.getSizeFactor(index);
+  /**
+  * Loads required game images, then triggers callback.
+  * @param onAllLoaded Called when all images are loaded
+  */
+  loadImages(onAllLoaded: () => void) {
+    const images = [
+      { image: this.backgroundImage, src: 'assets/images/background_2.png' },
+      { image: this.appleImage, src: 'assets/images/apple.png' },
+      { image: this.snakeHeadImage, src: 'assets/images/snake_head_2.png' },
+      { image: this.snakeBodyImage, src: 'assets/images/snake_body.png' }
+    ];
 
-      const offset = (1 - sizeFactor) * this.tileSize / 2;
-      const size = this.tileSize * sizeFactor;
-
-      this.ctx.fillStyle = 'green';
-      this.ctx.fillRect(
-        segment.x * this.tileSize + offset,
-        segment.y * this.tileSize + offset,
-        size,
-        size
-      );
+    let loadedCount = 0;
+    images.forEach(({ image, src }) => {
+      image.src = src;
+      image.onload = () => {
+        loadedCount++;
+        if (loadedCount === images.length) onAllLoaded();
+      };
     });
+  }
 
-    // Draw apple
-    this.ctx.fillStyle = 'red';
-    this.ctx.fillRect(
+  /**
+ * Draws the entire game scene.
+ */
+  draw() {
+    this.drawBackground();
+    this.drawSnake();
+    this.drawApple();
+  }
+
+
+  /**
+ * Draws the tiled background pattern.
+ */
+  drawBackground() {
+    const canvas = this.canvasRef.nativeElement;
+    const pattern = this.ctx.createPattern(this.backgroundImage, 'repeat');
+    if (pattern) {
+      this.ctx.fillStyle = pattern;
+      this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+
+  /**
+  * Draws the snake, rotating the head and scaling body parts.
+  */
+  drawSnake() {
+    this.snake.snake.forEach((segment, index) => {
+      const isHead = index === 0;
+      const image = isHead ? this.snakeHeadImage : this.snakeBodyImage;
+      const scale = isHead ? 1.3 : this.getSizeFactor(index);
+      const size = this.tileSize * scale;
+      const offset = (this.tileSize - size) / 2;
+      const x = segment.x * this.tileSize + offset;
+      const y = segment.y * this.tileSize + offset;
+
+      if (isHead) {
+        this.drawRotatedImage(image, x, y, size, this.getHeadRotation());
+      } else {
+        this.ctx.drawImage(image, x, y, size, size);
+      }
+    });
+  }
+
+
+  /**
+   * Draws an image with rotation around its center.
+   * @param image The image to draw
+   * @param x X position
+   * @param y Y position
+   * @param size Width and height
+   * @param rotation Angle in radians
+   */
+  drawRotatedImage(image: HTMLImageElement, x: number, y: number, size: number, rotation: number) {
+    this.ctx.save();
+    this.ctx.translate(x + size / 2, y + size / 2);
+    this.ctx.rotate(rotation);
+    this.ctx.drawImage(image, -size / 2, -size / 2, size, size);
+    this.ctx.restore();
+  }
+
+
+  /**
+ * Calculates the current head rotation angle.
+ * @returns Rotation in radians
+ */
+  getHeadRotation(): number {
+    const { x, y } = this.snake.velocity;
+    if (x === 0 && y === -1) return Math.PI;
+    if (x === -1 && y === 0) return Math.PI / 2;
+    if (x === 1 && y === 0) return -Math.PI / 2;
+    return 0;
+  }
+
+
+  /**
+ * Draws the apple image at its current position.
+ */
+  drawApple() {
+    this.ctx.drawImage(
+      this.appleImage,
       this.game.apple.x * this.tileSize,
       this.game.apple.y * this.tileSize,
       this.tileSize,
@@ -61,18 +152,24 @@ export class GameComponent implements AfterViewInit {
     );
   }
 
+
+  /**
+  * Restarts the game and redraws the scene.
+  */
   restart() {
     this.game.restart(() => this.draw());
   }
 
+
+  /**
+ * Returns a scaling factor for the given snake segment.
+ * @param index Segment index
+ * @returns Size factor (0.6 - 1.0)
+ */
   getSizeFactor(index: number): number {
     const length = this.snake.snake.length;
-
-    if (index === 0) return 1.0; // Full size for the head
-    if (index === length - 1) return 0.6; // Smaller size for the tail
-
-    // Slightly smaller size for body segments to create a visual gradient
+    if (index === 0) return 1.0;
+    if (index === length - 1) return 0.6;
     return 0.85;
   }
-
 }

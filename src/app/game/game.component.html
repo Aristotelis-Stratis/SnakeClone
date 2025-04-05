@@ -1,11 +1,13 @@
 <div class="game-container">
     <div class="game-wrapper">
-        <canvas #gameCanvas width="700" height="550"></canvas>
+      <canvas #gameCanvas width="700" height="550"></canvas>
   
-      <div class="score-display">
-        🍎 {{ game.score }}
-      </div>
+      <!-- Score Display with Apple -->
+      <!-- <div class="score-display">
+        <img src="assets/images/apple.png" alt="Apple"> {{ game.score }}
+      </div> -->
   
+      <!-- Game Over Overlay -->
       <div *ngIf="game.isGameOver" class="overlay">
         <h2>Game Over</h2>
         <p>Your Score: {{ game.score }}</p>

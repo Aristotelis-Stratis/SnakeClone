@@ -23,7 +23,6 @@ export class SnakeService {
     }
   }
   
-
   grow() {
     const tail = this.snake[this.snake.length - 1];
     this.snake.push({ ...tail }); // dummy-grow
