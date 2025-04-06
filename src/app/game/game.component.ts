@@ -4,6 +4,7 @@ import { GameService } from '../services/game.service';
 import { CommonModule } from '@angular/common';
 import { InputService } from '../services/input.service';
 import { Output, EventEmitter } from '@angular/core';
+import { LeaderboardService } from '../services/leaderboard.service';
 
 @Component({
   selector: 'app-game',

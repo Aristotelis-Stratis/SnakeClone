@@ -25,6 +25,15 @@
         <button (click)="toggleInstructions()">Back</button>
       </div>
     </div>
+
+    <app-highscore-overlay *ngIf="showHighscoreInput" [score]="gameService.score"
+      (nameSubmitted)="onHighscoreNameSubmit($event)">
+    </app-highscore-overlay>
+
+    <app-leaderboard *ngIf="showLeaderboard"
+    [scores]="leaderboard.getScores()"
+    (close)="toggleLeaderboard()">
+</app-leaderboard>
   </div>
 
   <div class="menu-bar">
@@ -34,20 +43,15 @@
     </ng-container>
 
     <ng-container *ngIf="gameStarted">
-      <button (click)="onBackToMenu()">Back to Menu</button>
-      <span class="score-display">
-        <img src="assets/images/apple.png" alt="Apple" />
-        {{ gameService.score }} Apples
-      </span>
-
+      <button (click)="onBackToMenu()">Menu</button>
       <button (click)="toggleMute()">
         {{ sound.isMuted() ? '🔇 Unmute' : '🔊 Mute' }}
       </button>
-
       <button (click)="togglePause()">
         {{ gameService.isPaused ? '▶️ Resume' : '⏸️ Pause' }}
       </button>
+
+      <button (click)="toggleLeaderboard()">🏆Leaderboard</button>
     </ng-container>
   </div>
-
 </div>

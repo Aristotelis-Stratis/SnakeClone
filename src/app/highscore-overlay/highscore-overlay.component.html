@@ -1,0 +1,10 @@
+<div class="overlay">
+    <div class="overlay-box">
+        <h2>Your score:</h2>
+        <p>You scored <strong>{{ score }}</strong> <img src="assets/images/apple.png" alt="Apple" />.</p>
+        <label for="name">Enter your name:</label>
+        <input id="name" type="text" [(ngModel)]="playerName" (keydown.enter)="submit()" maxlength="15"
+            placeholder="Your name" autofocus />
+        <button (click)="submit()" [disabled]="!playerName.trim()">Save</button>
+    </div>
+</div>

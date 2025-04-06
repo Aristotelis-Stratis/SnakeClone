@@ -1,0 +1,14 @@
+<div class="leaderboard-overlay">
+    <div class="leaderboard-box">
+      <h2>🏆 Leaderboard</h2>
+      <ul>
+        <li *ngFor="let entry of scores; let i = index">
+          <span class="rank">#{{ i + 1 }}</span>
+          <span class="name">{{ entry.name }}</span>
+          <span class="score">{{ entry.score }}</span>
+        </li>
+      </ul>
+      <button class="close-btn" (click)="close.emit()">Close</button>
+    </div>
+  </div>
+  

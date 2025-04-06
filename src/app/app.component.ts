@@ -3,37 +3,50 @@ import { GameComponent } from './game/game.component';
 import { CommonModule } from '@angular/common';
 import { GameService } from './services/game.service';
 import { SoundService } from './services/sound.service';
+import { LeaderboardService } from './services/leaderboard.service';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { HighscoreOverlayComponent } from './highscore-overlay/highscore-overlay.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [GameComponent, CommonModule],
+  imports: [
+    GameComponent, CommonModule, HighscoreOverlayComponent, LeaderboardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-
 export class AppComponent {
   gameStarted = false;
   showInstructions = false;
   isMuted = false;
+  showHighscoreInput = false;
+  showLeaderboard = false;
+
   @ViewChild(GameComponent)
   gameComponent!: GameComponent;
 
   constructor(
     public gameService: GameService,
-    public sound: SoundService
-  ) { }
-
+    public sound: SoundService,
+    public leaderboard: LeaderboardService
+  ) {
+    this.gameService.newHighscoreEvent.subscribe(() => {
+      this.showHighscoreInput = true;
+    });
+  }
 
   /**
- * Starts the game by showing the game screen, hides the instructions, and starts the music.
- */
+     * Starts the game and hides instructions if visible.
+     */
   onGameStart() {
     this.gameStarted = true;
     this.showInstructions = false;
     this.sound.startMusic();
   }
 
+  /**
+   * Toggles pause and resume of the game.
+   */
   togglePause() {
     if (this.gameService.isPaused) {
       this.gameService.resume(() => this.gameComponent.draw());
@@ -43,24 +56,45 @@ export class AppComponent {
   }
 
   /**
- * Returns to the main menu from the game.
- */
+   * Ends the game and returns to main menu.
+   */
   onBackToMenu() {
     this.gameStarted = false;
     this.sound.stopMusic();
     this.gameService.reset();
+    this.showInstructions = false;
+    this.showHighscoreInput = false;
+    this.showLeaderboard = false;
   }
 
   /**
-* Toggles the instruction menu.
-*/
+   * Toggles instruction overlay visibility.
+   */
   toggleInstructions() {
     this.showInstructions = !this.showInstructions;
   }
 
   /**
-* Toggles the game sound on and off.
-*/
+   * Toggles leaderboard overlay visibility.
+   */
+  toggleLeaderboard() {
+    this.showLeaderboard = !this.showLeaderboard;
+  }
+
+  /**
+ * Handles submission of the player's name after achieving a highscore.
+ * Saves the score to the leaderboard and displays the leaderboard overlay.
+ * @param name - The name entered by the player.
+ */
+  onHighscoreNameSubmit(name: string) {
+    this.leaderboard.addScore(name, this.gameService.score);
+    this.showHighscoreInput = false;
+    this.showLeaderboard = true;
+  }
+
+  /**
+   * Mutes or unmutes all sounds.
+   */
   toggleMute() {
     this.sound.toggleMute();
   }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Apple } from '../models/apple.model';
 import { SnakeService } from './snake.service';
 import { SoundService } from './sound.service';
+import { LeaderboardService } from './leaderboard.service';
+import { EventEmitter } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -12,13 +14,15 @@ export class GameService {
   readonly tileSize = 25;
   readonly tileCountX = Math.floor(700 / this.tileSize); // 28 tiles wide
   readonly tileCountY = Math.floor(550 / this.tileSize); // 22 tiles tall
+  newHighscoreEvent = new EventEmitter<number>();
 
   isPaused = false;
   isGameOver = false;
 
   constructor(
     private snakeService: SnakeService,
-    private sound: SoundService
+    private sound: SoundService,
+    private leaderboard: LeaderboardService
   ) { }
 
   /**
@@ -86,15 +90,6 @@ export class GameService {
   }
 
   /**
-   * Resets score and state before starting game loop.
-   */
-  // private resetState() {
-  //   this.score = 0;
-  //   this.stop();
-  //   this.isGameOver = false;
-  // }
-
-  /**
    * Calculates the next head position of the snake.
    */
   private getNextHeadPosition() {
@@ -127,28 +122,38 @@ export class GameService {
     this.sound.stopMusic();
     this.sound.playGameOver();
     this.stop();
+
+    if (this.score > 0 && this.leaderboard.isHighscore(this.score)) {
+      this.newHighscoreEvent.emit(this.score);
+    }
+
     this.snakeService.reset();
     this.spawnApple();
     callback();
   }
 
 
+
+  /**
+   * Starts the game loop, updates state and triggers redraw.
+   * @param callback Function to render the game.
+   */
   private runGameLoop(callback: () => void) {
     this.intervalId = setInterval(() => {
       const nextHead = this.getNextHeadPosition();
-  
+
       if (this.checkGameOver(nextHead)) {
         this.handleGameOver(callback);
         return;
       }
-  
+
       const ateApple = this.apple.isAt(nextHead);
       this.snakeService.move(ateApple);
-  
+
       if (ateApple) {
         this.handleAppleEaten();
       }
-  
+
       callback();
     }, 150);
   }
