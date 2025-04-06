@@ -26,10 +26,11 @@ export class AppComponent {
 
 
   /**
- * Starts the game by showing the game screen.
+ * Starts the game by showing the game screen, hides the instructions, and starts the music.
  */
   onGameStart() {
     this.gameStarted = true;
+    this.showInstructions = false;
     this.sound.startMusic();
   }
 
@@ -57,6 +58,9 @@ export class AppComponent {
     this.showInstructions = !this.showInstructions;
   }
 
+  /**
+* Toggles the game sound on and off.
+*/
   toggleMute() {
     this.sound.toggleMute();
   }

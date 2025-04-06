@@ -145,14 +145,6 @@ export class GameComponent implements AfterViewInit {
   }
 
   /**
-   * Resumes the game.
-   */
-  resume() {
-    this.game.resume(() => this.draw());
-  }
-
-
-  /**
  * Emits an event to navigate back to the main menu.
  */
   backToMenu() {

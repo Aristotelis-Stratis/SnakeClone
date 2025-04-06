@@ -37,7 +37,7 @@
 
   button {
     font-size: 16px;
-    padding: 12px 24px;
+    padding: 14px 24px;
     border: none;
     border-radius: 10px;
     background: linear-gradient(to bottom, #4caf50, #388e3c);
@@ -48,7 +48,7 @@
 
     &:hover {
       background: linear-gradient(to bottom, #66bb6a, #43a047);
-      transform: translateY(-2px);
+
     }
 
     &:active {
@@ -60,18 +60,29 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
-    border-radius: 12px;
-    background: linear-gradient(to bottom, #fefefe, #e0f7df);
-    color: #2e7d32;
-    font-size: 20px;
-    font-weight: 600;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #4caf50, #388e3c);
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
 
     img {
       width: 24px;
       height: 24px;
       filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+    }
+
+    &:hover {
+      background: linear-gradient(to bottom, #66bb6a, #43a047);
+
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
   }
 }

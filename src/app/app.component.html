@@ -34,18 +34,18 @@
     </ng-container>
 
     <ng-container *ngIf="gameStarted">
-      <button (click)="onBackToMenu()">Back</button>
+      <button (click)="onBackToMenu()">Back to Menu</button>
       <span class="score-display">
         <img src="assets/images/apple.png" alt="Apple" />
         {{ gameService.score }} Apples
       </span>
 
-      <button (click)="togglePause()">
-        {{ gameService.isPaused ? '▶️ Resume' : '⏸️ Pause' }}
-      </button>
-
       <button (click)="toggleMute()">
         {{ sound.isMuted() ? '🔇 Unmute' : '🔊 Mute' }}
+      </button>
+
+      <button (click)="togglePause()">
+        {{ gameService.isPaused ? '▶️ Resume' : '⏸️ Pause' }}
       </button>
     </ng-container>
   </div>
