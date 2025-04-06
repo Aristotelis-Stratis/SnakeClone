@@ -8,10 +8,22 @@ import { CommonModule } from '@angular/common';
   templateUrl: './start-screen.component.html',
   styleUrls: ['./start-screen.component.scss']
 })
+
 export class StartScreenComponent {
   @Output() startGame = new EventEmitter<void>();
+  showInstructions = false;
 
+  /**
+   * Emits start event to begin the game.
+   */
   onStartClick() {
     this.startGame.emit();
+  }
+
+  /**
+   * Toggles the visibility of the instructions panel.
+   */
+  toggleInstructions() {
+    this.showInstructions = !this.showInstructions;
   }
 }

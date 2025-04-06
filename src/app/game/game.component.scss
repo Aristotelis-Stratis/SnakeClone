@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .game-wrapper {
@@ -44,18 +43,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 16px;;
 
   .button-group {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 16px;;
+    margin-top: 16px;;
     animation: fadeInUp 0.6s ease-out;
   }
 
   button {
-    font-size: 1.4rem;
-    padding: 0.8rem 1.6rem;
+    font-size: 22.4px;
+    padding: 12.8px 25.6px;
     border: none;
     border-radius: 12px;
     background: linear-gradient(to bottom, #4caf50, #388e3c);
@@ -65,7 +64,7 @@
     transition: all 0.25s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
 
     &:hover {
       transform: translateY(-3px) scale(1.03);

@@ -1,16 +1,49 @@
 <div class="title">
-    <h1>SerpenTile</h1>
-  </div>
-  
-  <div class="game-container">
-    <app-start-screen
-      *ngIf="!gameStarted"
-      (startGame)="onGameStart()">
-    </app-start-screen>
-  
-    <app-game
-      *ngIf="gameStarted"
-      (backToMenuEvent)="onBackToMenu()">
+  <h1>SerpenTile</h1>
+</div>
+
+<div class="game-container">
+  <div class="canvas-container">
+    <app-game *ngIf="gameStarted" (backToMenuEvent)="onBackToMenu()">
     </app-game>
+
+    <div class="menu-placeholder" *ngIf="!gameStarted">
+      <div class="menu-text">
+        <h2>Welcome to <br>
+          <p>SerpenTile</p>
+        </h2>
+      </div>
+    </div>
+
+    <div class="instructions-overlay" *ngIf="showInstructions">
+      <div class="instructions-box">
+        <h2>How to Play</h2>
+        <p>
+          Control the snake using <strong>WASD</strong> or the <strong>arrow keys</strong>.<br />
+          Try to eat as many apples as possible without running into yourself or the walls.
+        </p>
+        <button (click)="toggleInstructions()">Back</button>
+      </div>
+    </div>
   </div>
-  
+
+  <div class="menu-bar">
+    <ng-container *ngIf="!gameStarted">
+      <button (click)="onGameStart()">Start</button>
+      <button (click)="toggleInstructions()">Instructions</button>
+    </ng-container>
+
+    <ng-container *ngIf="gameStarted">
+      <button (click)="onBackToMenu()">Back</button>
+      <span class="score-display">
+        <img src="assets/images/apple.png" alt="Apple" />
+        {{ gameService.score }} Apples
+      </span>
+
+      <button (click)="toggleMute()">
+        {{ isMuted ? '🔇 Unmute' : '🔊 Mute' }}
+      </button>
+    </ng-container>
+  </div>
+
+</div>

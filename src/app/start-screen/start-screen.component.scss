@@ -1,19 +1,18 @@
 @keyframes fadeInUp {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
-
+  
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-
-.start-screen {
+  }
+  
+  .start-screen {
     width: 700px;
-    height: 700px;
+    height: 550px;
     background: url('/assets/images/menu_bg_3_transparent.png') no-repeat center 15%;
     background-size: cover;
     position: absolute;
@@ -23,37 +22,82 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-
+    overflow: hidden;
+  
     .button-group {
-        display: flex;
-        gap: 1.2rem;
-        margin-bottom: 30px;
-        animation: fadeInUp 0.8s ease-out;
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 30px;
+      animation: fadeInUp 0.8s ease-out;
+      z-index: 2;
     }
-
+  
     button {
-        font-size: 1.4rem;
-        padding: 0.8rem 1.6rem;
-        border: none;
-        border-radius: 12px;
-        background: linear-gradient(to bottom, #4caf50, #388e3c);
-        color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-        transition: all 0.25s ease;
-
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        &:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(to bottom, #66bb6a, #43a047);
-        }
-
-        &:active {
-            transform: scale(0.98);
-        }
+      font-size: 1.4rem;
+      padding: 0.8rem 1.6rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(to bottom, #4caf50, #388e3c);
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.25s ease;
+  
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  
+      &:hover {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(to bottom, #66bb6a, #43a047);
+      }
+  
+      &:active {
+        transform: scale(0.98);
+      }
     }
-}
+  
+    .instructions {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.97);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+      text-align: center;
+      animation: fadeInUp 0.5s ease-out;
+  
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+      }
+  
+      p {
+        font-size: 1.2rem;
+        max-width: 500px;
+        margin-bottom: 25px;
+      }
+  
+      button {
+        font-size: 1.2rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: 10px;
+        background-color: #2f9e44;
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  
+        &:hover {
+          background-color: #238636;
+        }
+      }
+    }
+  }
+  

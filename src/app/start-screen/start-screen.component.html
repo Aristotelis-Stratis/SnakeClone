@@ -1,7 +1,15 @@
 <div class="start-screen">
-    <div class="button-group">
-      <button (click)="onStartClick()">▶️ Start Game</button>
-      <button>⚙️ Settings</button>
-    </div>
+  <div class="button-group">
+    <button (click)="onStartClick()">Start</button>
+    <button (click)="toggleInstructions()">Instructions</button>
   </div>
-  
+
+  <div class="instructions" *ngIf="showInstructions">
+    <h2>How to Play</h2>
+    <p>
+      Control the snake using <strong>WASD</strong> or the <strong>arrow keys</strong>.<br />
+      Try to eat as many apples as possible without running into yourself or the walls.
+    </p>
+    <button (click)="toggleInstructions()">Back</button>
+  </div>
+</div>
