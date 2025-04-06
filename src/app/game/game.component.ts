@@ -65,12 +65,13 @@ export class GameComponent implements AfterViewInit {
   }
 
   /**
-   * Draws the entire game scene.
+   * Draws the entire game scene and calls the direction lock for next tick.
    */
   draw() {
     this.drawBackground();
     this.drawSnake();
     this.drawApple();
+    this.input.resetDirectionChanged();
   }
 
   /**
