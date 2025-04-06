@@ -41,7 +41,7 @@
       </span>
 
       <button (click)="toggleMute()">
-        {{ isMuted ? '🔇 Unmute' : '🔊 Mute' }}
+        {{ sound.isMuted() ? '🔇 Unmute' : '🔊 Mute' }}
       </button>
     </ng-container>
   </div>
