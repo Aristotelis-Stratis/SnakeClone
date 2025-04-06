@@ -1,7 +1,14 @@
 <div class="game-container">
   <div class="game-wrapper">
     <canvas #gameCanvas width="700" height="550"></canvas>
-
+    <!-- Pause Overlay -->
+    <div *ngIf="game.isPaused && !game.isGameOver" class="overlay">
+      <h2>Game Paused</h2>
+      <div class="button-group">
+        <button (click)="resume()">Resume</button>
+        <button (click)="backToMenu()">Back to Menu</button>
+      </div>
+    </div>
     <div *ngIf="game.isGameOver" class="overlay">
       <h2>Game Over</h2>
       <p>Your Score: {{ game.score }} <img src="assets/images/apple.png" alt="Apple" /></p>

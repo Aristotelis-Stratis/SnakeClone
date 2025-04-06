@@ -13,37 +13,25 @@ export class GameService {
   readonly tileCountX = Math.floor(700 / this.tileSize); // 28 tiles wide
   readonly tileCountY = Math.floor(550 / this.tileSize); // 22 tiles tall
 
+  isPaused = false;
   isGameOver = false;
 
   constructor(
     private snakeService: SnakeService,
     private sound: SoundService
-  ) {}
+  ) { }
 
   /**
    * Starts the game loop and resets state.
    * @param callback draw callback
    */
   start(callback: () => void) {
-    this.resetState();
+    this.score = 0;
+    this.stop();
+    this.isGameOver = false;
+    this.snakeService.reset();
     this.spawnApple();
-
-    this.intervalId = setInterval(() => {
-      const nextHead = this.getNextHeadPosition();
-      if (this.checkGameOver(nextHead)) {
-        this.handleGameOver(callback);
-        return;
-      }
-
-      const ateApple = this.apple.isAt(nextHead);
-      this.snakeService.move(ateApple);
-
-      if (ateApple) {
-        this.handleAppleEaten();
-      }
-
-      callback();
-    }, 150);
+    this.runGameLoop(callback);
   }
 
   /**
@@ -55,6 +43,29 @@ export class GameService {
       this.intervalId = null;
     }
     this.isGameOver = true;
+  }
+
+  /**
+   * Pauses the game loop and music.
+   */
+  pause() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+      this.isPaused = true;
+      this.sound.stopMusic();
+    }
+  }
+
+  /**
+   * Resumes the game loop and music.
+   * @param callback draw callback
+   */
+  resume(callback: () => void) {
+    if (!this.isPaused) return;
+    this.isPaused = false;
+    this.sound.startMusic();
+    this.runGameLoop(callback);
   }
 
   /**
@@ -77,11 +88,11 @@ export class GameService {
   /**
    * Resets score and state before starting game loop.
    */
-  private resetState() {
-    this.score = 0;
-    this.stop();
-    this.isGameOver = false;
-  }
+  // private resetState() {
+  //   this.score = 0;
+  //   this.stop();
+  //   this.isGameOver = false;
+  // }
 
   /**
    * Calculates the next head position of the snake.
@@ -121,6 +132,27 @@ export class GameService {
     callback();
   }
 
+
+  private runGameLoop(callback: () => void) {
+    this.intervalId = setInterval(() => {
+      const nextHead = this.getNextHeadPosition();
+  
+      if (this.checkGameOver(nextHead)) {
+        this.handleGameOver(callback);
+        return;
+      }
+  
+      const ateApple = this.apple.isAt(nextHead);
+      this.snakeService.move(ateApple);
+  
+      if (ateApple) {
+        this.handleAppleEaten();
+      }
+  
+      callback();
+    }, 150);
+  }
+
   /**
    * Handles logic after an apple is eaten.
    */
@@ -128,5 +160,17 @@ export class GameService {
     this.score++;
     this.spawnApple();
     this.sound.playAppleBite();
+  }
+
+  /**
+ * Fully resets the game state.
+ * Stops the game loop, resets score, paused and game-over flags and reinitializes the snake.
+ */
+  reset() {
+    this.stop();
+    this.isPaused = false;
+    this.isGameOver = false;
+    this.score = 0;
+    this.snakeService.reset();
   }
 }

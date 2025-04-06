@@ -66,6 +66,10 @@ export class SnakeService {
     this.snake.velocity = val;
   }
 
+  /**
+ * Returns the internal snake instance.
+ * @returns {Snake} The current Snake object.
+ */
   get instance(): Snake {
     return this.snake;
   }
