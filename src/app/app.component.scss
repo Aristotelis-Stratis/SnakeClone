@@ -23,6 +23,11 @@
   z-index: 1000;
   pointer-events: none;
   animation: titleEntrance 1s ease-out forwards;
+
+  h1 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
 }
 
 
