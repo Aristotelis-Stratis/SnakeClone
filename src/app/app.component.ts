@@ -36,9 +36,10 @@ export class AppComponent {
   }
 
   /**
-     * Starts the game and hides instructions if visible.
+     * Starts the game and hides all overlays if visible.
      */
   onGameStart() {
+    this.closeAllOverlays();
     this.gameStarted = true;
     this.showInstructions = false;
     this.sound.startMusic();
