@@ -15,7 +15,6 @@
   transform: translateX(-50%);
   font-size: 48px;
   font-weight: 800;
-  font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to right, #b6ff63, #4caf50);
   background-clip: text;
   -webkit-background-clip: text;
@@ -101,8 +100,8 @@
   .instructions-box {
     text-align: center;
     border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.65);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, #4caf50, #388e3c);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     height: 550px;
     width: 700px;
     color: white;
@@ -136,6 +135,11 @@
 
       &:hover {
         background-color: #238636;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
       }
     }
   }

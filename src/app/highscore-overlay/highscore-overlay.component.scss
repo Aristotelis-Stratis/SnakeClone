@@ -10,24 +10,29 @@
   z-index: 20;
 
   .overlay-box {
-    background: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, #4caf50, #388e3c);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     padding: 40px 30px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: 90%;
     max-width: 400px;
     border: 2px solid #4caf50;
 
+
     h2 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #4caf50;
+      color: white;
       font-weight: 700;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     p {
+      gap: 8px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
       margin-bottom: 1.5rem;
       font-size: 1.3rem;
       color: #333;
@@ -43,14 +48,14 @@
       display: block;
       margin-bottom: 0.4rem;
       font-weight: bold;
-      color: #2e7d32;
+      color: white;
     }
 
     input {
       width: 300px;
       padding: 12px;
       font-size: 1rem;
-      border: 2px solid #4caf50;
+      border: none;
       border-radius: 10px;
       outline: none;
       transition: border-color 0.3s;

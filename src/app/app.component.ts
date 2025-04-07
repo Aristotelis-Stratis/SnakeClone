@@ -72,10 +72,13 @@ export class AppComponent {
 
   /**
    * Toggles instruction overlay visibility.
+   * If the instructions are shown, all other overlays are closed.
    */
   toggleInstructions() {
+    if (!this.showInstructions) this.closeAllOverlays();
     this.showInstructions = !this.showInstructions;
   }
+
 
   /**
    * Toggles leaderboard overlay visibility.
@@ -83,9 +86,14 @@ export class AppComponent {
    * If the leaderboard is hidden, the game resumes if it was paused.
    */
   toggleLeaderboard() {
-    if (!this.showLeaderboard && this.gameStarted && !this.gameService.isPaused) {
-      this.gameService.pause();
+    if (!this.showLeaderboard) {
+      this.closeAllOverlays();
+
+      if (this.gameStarted && !this.gameService.isPaused) {
+        this.gameService.pause();
+      }
     }
+
     this.showLeaderboard = !this.showLeaderboard;
   }
 
@@ -105,5 +113,14 @@ export class AppComponent {
    */
   toggleMute() {
     this.sound.toggleMute();
+  }
+
+  /**
+ * Closes all overlay UIs like instructions, leaderboard and highscore input.
+ */
+  closeAllOverlays() {
+    this.showInstructions = false;
+    this.showLeaderboard = false;
+    this.showHighscoreInput = false;
   }
 }

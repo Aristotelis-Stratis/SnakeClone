@@ -4,7 +4,6 @@
   left: 0;
   width: 700px;
   height: 550px;
-  background-color: linear-gradient(to bottom, #4caf50, #388e3c);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,16 +12,21 @@
 
   .leaderboard-box {
     background: linear-gradient(to bottom, #4caf50, #388e3c);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     width: 700px;
-    text-align: center;
     height: 550px;
-    box-sizing: border-box;
     padding: 32px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 16px;
+    position: relative;
 
     h2 {
       margin-bottom: 1.5rem;
       font-size: 2rem;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      border-radius: 12px;
     }
 
     ul {
@@ -32,21 +36,49 @@
 
       li {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         font-size: 1.2rem;
-        margin: 0.5rem 0;
+        margin: 0.75rem 0;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
 
         .rank {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           font-weight: bold;
+          margin-right: 0.5rem;
+          background: #ffffff44;
+          color: white;
+          flex-shrink: 0;
+        }
+
+        &:nth-child(1) .rank {
+          background: #a94de6;
+        }
+
+        &:nth-child(2) .rank {
+          background: #c88ee6;
+        }
+
+        &:nth-child(3) .rank {
+          background: #e6c8f7;
         }
 
         .name {
-          flex: 1;
+          flex-grow: 1;
           text-align: left;
           margin-left: 0.5rem;
+          font-weight: 500;
         }
 
         .score {
+          font-weight: bold;
           color: white;
         }
       }
