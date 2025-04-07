@@ -17,12 +17,33 @@
 
     <div class="instructions-overlay" *ngIf="showInstructions">
       <div class="instructions-box">
+        <button (click)="toggleInstructions()">
+          <img src="assets/images/back.png" alt="Menu Icon" />Back</button>
+      
         <h2>How to Play</h2>
-        <p>
-          Control the snake using <strong>WASD</strong> or the <strong>arrow keys</strong>.<br />
-          Try to eat as many apples as possible without running into yourself or the walls.
-        </p>
-        <button (click)="toggleInstructions()">Back</button>
+      
+        <div class="controls-section">
+          <div class="control">
+            <img src="assets/images/keyboard_WASD.png" alt="WASD keys" />
+            <span>Use <strong>W A S D</strong> to move</span>
+          </div>
+      
+          <div class="control">
+            <img src="assets/images/arrow_keys.png" alt="Arrow keys" />
+            <span>or use <strong>Arrow Keys</strong></span>
+          </div>
+        </div>
+      
+        <div class="goal-text">
+          <div class="goal-line">
+            <img src="assets/images/apple.png" alt="Apple" />
+            <span>Eat apples to grow longer.</span>
+          </div>
+          <div class="goal-line">
+            <img src="assets/images/collision.png" alt="Collision" />
+            <span>Avoid hitting walls or yourself!</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -30,29 +51,51 @@
       (nameSubmitted)="onHighscoreNameSubmit($event)">
     </app-highscore-overlay>
 
-    <app-leaderboard *ngIf="showLeaderboard"
-    [scores]="leaderboard.getScores()"
-    (close)="toggleLeaderboard()">
-</app-leaderboard>
+    <app-leaderboard *ngIf="showLeaderboard" [scores]="leaderboard.getScores()" (close)="toggleLeaderboard()">
+    </app-leaderboard>
   </div>
 
   <div class="menu-bar">
     <ng-container *ngIf="!gameStarted">
-      <button (click)="onGameStart()">Start</button>
-      <button (click)="toggleInstructions()">Instructions</button>
-      <button (click)="toggleLeaderboard()">🏆Leaderboard</button>
+      <button (click)="onGameStart()">
+        <img src="assets/images/play.png" alt="Play Icon" />
+        Start
+      </button>
+
+      <button (click)="toggleInstructions()">
+        <img src="assets/images/instructions.png" alt="Instructions Icon" />
+        Instructions
+      </button>
+
+      <button (click)="toggleLeaderboard()">
+        <img src="assets/images/trophy.png" alt="Leaderboard Icon" />
+        Leaderboard
+      </button>
     </ng-container>
 
+
     <ng-container *ngIf="gameStarted">
-      <button (click)="onBackToMenu()">Menu</button>
-      <button (click)="toggleMute()">
-        {{ sound.isMuted() ? '🔇 Unmute' : '🔊 Mute' }}
-      </button>
-      <button (click)="togglePause()">
-        {{ gameService.isPaused ? '▶️ Resume' : '⏸️ Pause' }}
+      <button (click)="onBackToMenu()">
+        <img src="assets/images/back.png" alt="Menu Icon" />
+        Menu
       </button>
 
-      <button (click)="toggleLeaderboard()">🏆Leaderboard</button>
+      <button (click)="toggleMute()">
+        <img [src]="sound.isMuted() ? 'assets/images/mute.png' : 'assets/images/unmute.png'"
+          [alt]="sound.isMuted() ? 'Unmute Icon' : 'Mute Icon'" />
+        {{ sound.isMuted() ? 'Unmute' : 'Mute' }}
+      </button>
+
+      <button (click)="togglePause()">
+        <img [src]="gameService.isPaused ? 'assets/images/play.png' : 'assets/images/pause.png'"
+          [alt]="gameService.isPaused ? 'Resume Icon' : 'Pause Icon'" />
+        {{ gameService.isPaused ? 'Resume' : 'Pause' }}
+      </button>
+
+      <button (click)="toggleLeaderboard()">
+        <img src="assets/images/trophy.png" alt="Leaderboard Icon" />
+        Leaderboard
+      </button>
     </ng-container>
   </div>
 </div>

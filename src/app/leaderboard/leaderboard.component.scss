@@ -27,6 +27,16 @@
       background: rgba(0, 0, 0, 0.1);
       padding: 1rem;
       border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      img {
+        width: 35px;
+        height: 35px;
+
+      }
     }
 
     ul {

@@ -44,6 +44,16 @@
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
     transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.4));
+    }
+
 
     &:hover {
       background: linear-gradient(to bottom, #66bb6a, #43a047);
@@ -105,24 +115,82 @@
     height: 550px;
     width: 700px;
     color: white;
+    box-sizing: border-box;
+    padding: 30px;
+
+    .controls-section {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+      gap: 20px;
+      flex-wrap: wrap;
+
+      .control {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+
+        img {
+          width: 120px;
+          height: auto;
+          filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
+        }
+
+        span {
+          font-size: 18px;
+          color: white;
+        }
+      }
+    }
+
+    .goal-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 40px;
+
+      .goal-line {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 16px;
+        font-size: 20px;
+
+        img {
+          width: 28px;
+          height: 28px;
+          filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+        }
+
+        span {
+          color: white;
+        }
+      }
+    }
 
     h2 {
       font-size: 32px;
-      background: linear-gradient(to right, #b6ff63, #4caf50);
+      background: white;
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
       margin-bottom: 16px;
     }
 
     p {
       margin-top: 56px;
       font-size: 24px;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
 
     button {
-      padding: 12px 24px;
+      padding: 10px 12px;
       font-size: 16px;
       border: none;
       background-color: #2f9e44;
@@ -132,9 +200,19 @@
       position: absolute;
       left: 20px;
       top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+
+      img {
+        width: 25px;
+        height: 25px;
+      }
 
       &:hover {
-        background-color: #238636;
+        background: linear-gradient(to bottom, #66bb6a, #43a047);
       }
 
       &:focus {
