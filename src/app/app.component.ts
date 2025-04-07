@@ -6,12 +6,13 @@ import { SoundService } from './services/sound.service';
 import { LeaderboardService } from './services/leaderboard.service';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { HighscoreOverlayComponent } from './highscore-overlay/highscore-overlay.component';
+import { GameWonOverlayComponent } from './game-won-overlay/game-won-overlay.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    GameComponent, CommonModule, HighscoreOverlayComponent, LeaderboardComponent],
+    GameComponent, CommonModule, HighscoreOverlayComponent, LeaderboardComponent, GameWonOverlayComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -21,7 +22,8 @@ export class AppComponent {
   isMuted = false;
   showHighscoreInput = false;
   showLeaderboard = false;
-  
+  showGameWonOverlay = false;
+
 
   @ViewChild(GameComponent)
   gameComponent!: GameComponent;
@@ -32,7 +34,11 @@ export class AppComponent {
     public leaderboard: LeaderboardService
   ) {
     this.gameService.newHighscoreEvent.subscribe(() => {
-      this.showHighscoreInput = true;
+      if (this.gameService.isGameWon) {
+        this.showGameWonOverlay = true;
+      } else {
+        this.showHighscoreInput = true;
+      }
     });
   }
 
@@ -64,11 +70,12 @@ export class AppComponent {
    * Ends the game and returns to main menu.
    */
   onBackToMenu() {
+    this.showGameWonOverlay = false;
+    this.showHighscoreInput = false;
     this.gameStarted = false;
     this.sound.stopMusic();
     this.gameService.reset();
     this.showInstructions = false;
-    this.showHighscoreInput = false;
     this.showLeaderboard = false;
   }
 

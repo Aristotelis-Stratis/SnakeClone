@@ -19,21 +19,21 @@
       <div class="instructions-box">
         <button (click)="toggleInstructions()">
           <img src="assets/images/back.png" alt="Menu Icon" />Back</button>
-      
+
         <h2>How to Play</h2>
-      
+
         <div class="controls-section">
           <div class="control">
             <img src="assets/images/keyboard_WASD.png" alt="WASD keys" />
             <span>Use <strong>W A S D</strong> to move</span>
           </div>
-      
+
           <div class="control">
             <img src="assets/images/arrow_keys.png" alt="Arrow keys" />
             <span>or use <strong>Arrow Keys</strong></span>
           </div>
         </div>
-      
+
         <div class="goal-text">
           <div class="goal-line">
             <img src="assets/images/apple.png" alt="Apple" />
@@ -47,12 +47,15 @@
       </div>
     </div>
 
-    <app-highscore-overlay *ngIf="showHighscoreInput" [score]="gameService.score"
+    <app-highscore-overlay *ngIf="showHighscoreInput && !gameService.isGameWon" [score]="gameService.score"
       (nameSubmitted)="onHighscoreNameSubmit($event)">
     </app-highscore-overlay>
 
     <app-leaderboard *ngIf="showLeaderboard" [scores]="leaderboard.getScores()" (close)="toggleLeaderboard()">
     </app-leaderboard>
+
+    <app-game-won-overlay *ngIf="showGameWonOverlay" [score]="gameService.score" (backToMenu)="onBackToMenu()">
+    </app-game-won-overlay>
   </div>
 
   <div class="menu-bar">

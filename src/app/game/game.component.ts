@@ -37,6 +37,12 @@ export class GameComponent implements AfterViewInit {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
     this.loadImages(() => this.game.start(() => this.draw()));
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key.toLowerCase() === '+') {
+        this.triggerTestWin();
+      }
+    });
   }
 
   /**
@@ -196,10 +202,10 @@ export class GameComponent implements AfterViewInit {
   }
 
 
-    /**
- * Draws the snake head.
- * @param {number} radius - Radius of the snake head used for eye scaling
- */
+  /**
+* Draws the snake head.
+* @param {number} radius - Radius of the snake head used for eye scaling
+*/
   private drawHeadCircle(radius: number) {
     this.ctx.fillStyle = '#6fa930';
     this.ctx.beginPath();
@@ -273,15 +279,17 @@ export class GameComponent implements AfterViewInit {
     this.backToMenuEvent.emit();
   }
 
+
   /**
-   * Returns a scaling factor for the given snake segment.
-   * @param index Segment index
-   * @returns Size factor (0.6 - 1.0)
-   */
-  getSizeFactor(index: number): number {
-    const length = this.snake.snakeSegments.length;
-    if (index === 0) return 1.0;
-    if (index === length - 1) return 0.6;
-    return 1;
+ * Triggers a simulated win condition for testing purposes.
+ */
+  private triggerTestWin() {
+    const totalTiles = this.game.tileCountX * this.game.tileCountY;
+    while (this.snake.snakeSegments.length < totalTiles) {
+      this.snake.grow();
+    }
+    this.game.score = totalTiles;
+    (this.game as any)['handleGameWon']?.();
+    this.draw();
   }
 }

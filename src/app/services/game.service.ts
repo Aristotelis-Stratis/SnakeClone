@@ -12,12 +12,13 @@ export class GameService {
   score = 0;
 
   readonly tileSize = 25;
-  readonly tileCountX = Math.floor(700 / this.tileSize); // 28 tiles wide
-  readonly tileCountY = Math.floor(550 / this.tileSize); // 22 tiles tall
+  readonly tileCountX = Math.floor(700 / this.tileSize);
+  readonly tileCountY = Math.floor(550 / this.tileSize);
   newHighscoreEvent = new EventEmitter<number>();
 
   isPaused = false;
   isGameOver = false;
+  isGameWon = false;
 
   constructor(
     private snakeService: SnakeService,
@@ -159,12 +160,39 @@ export class GameService {
   }
 
   /**
-   * Handles logic after an apple is eaten.
+   * Handles the logic that occurs after the snake eats an apple.
+   * Increases the score, checks for a win condition (snake fills all tiles),
+   * and either ends the game with a win or spawns a new apple and plays the bite sound.
    */
   private handleAppleEaten() {
     this.score++;
+
+    const totalTiles = this.tileCountX * this.tileCountY;
+    const snakeLength = this.snakeService.snakeSegments.length;
+
+    if (snakeLength === totalTiles) {
+      this.handleGameWon();
+      return;
+    }
+
     this.spawnApple();
     this.sound.playAppleBite();
+  }
+
+/**
+ * Handles the win scenario when the snake fills the entire board.
+ * Stops the game loop and music, plays the win sound, sets the gameWon flag,
+ * and emits a highscore event if the score qualifies.
+ */
+  private handleGameWon() {
+    this.sound.stopMusic();
+    this.sound.playGameWon();
+    this.stop();
+    this.isGameWon = true;
+
+    if (this.score > 0 && this.leaderboard.isHighscore(this.score)) {
+      this.newHighscoreEvent.emit(this.score);
+    }
   }
 
   /**
