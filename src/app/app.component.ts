@@ -50,6 +50,9 @@ export class AppComponent {
   togglePause() {
     if (this.gameService.isPaused) {
       this.gameService.resume(() => this.gameComponent.draw());
+      if (this.showLeaderboard) {
+        this.showLeaderboard = false;
+      }
     } else {
       this.gameService.pause();
     }
@@ -76,8 +79,13 @@ export class AppComponent {
 
   /**
    * Toggles leaderboard overlay visibility.
+   * If the leaderboard is shown, the game is paused.
+   * If the leaderboard is hidden, the game resumes if it was paused.
    */
   toggleLeaderboard() {
+    if (!this.showLeaderboard && this.gameStarted && !this.gameService.isPaused) {
+      this.gameService.pause();
+    }
     this.showLeaderboard = !this.showLeaderboard;
   }
 
