@@ -21,6 +21,7 @@ export class AppComponent {
   isMuted = false;
   showHighscoreInput = false;
   showLeaderboard = false;
+  
 
   @ViewChild(GameComponent)
   gameComponent!: GameComponent;

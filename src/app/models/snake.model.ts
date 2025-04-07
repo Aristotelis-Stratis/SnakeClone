@@ -43,7 +43,8 @@ export class Snake {
     reset() {
         this.segments = [
             new SnakeSegment(10, 10),
-            new SnakeSegment(9, 10)
+            new SnakeSegment(9, 10),
+            new SnakeSegment(8, 10)
         ];
         this.velocity = { x: 1, y: 0 };
     }
